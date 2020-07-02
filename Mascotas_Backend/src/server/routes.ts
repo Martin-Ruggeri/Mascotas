@@ -8,7 +8,6 @@ import * as profilePicture from "../profileImage/routes";
 import * as provinces from "../provinces/routes";
 import * as user from "../user/routes";
 import * as lostPet from "../lostPet/routes";
-import * as lostPetPicture from "../lostPetImage/routes";
 
 /**
  * Desacoplamos las rutas, los devs pueden tocar este archivo
@@ -22,7 +21,6 @@ export function initModules(app: express.Express) {
     image.initModule(app);
     pet.initModule(app);
     lostPet.initModule(app);
-    lostPetPicture.initModule(app);
 
 }
 
