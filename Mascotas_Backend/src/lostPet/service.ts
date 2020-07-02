@@ -84,8 +84,6 @@ export async function update(lostPetId: string, petId: string, body: ILostPet): 
 
     if (validBody.picture) {
       current.picture = validBody.picture;
-    } else {
-      current.picture = "";
     }
 
     if (validBody.description) {
@@ -94,16 +92,12 @@ export async function update(lostPetId: string, petId: string, body: ILostPet): 
 
     if (validBody.direction) {
       current.direction = validBody.direction;
-    } else {
-      current.direction = "";
     }
 
     if (validBody.reward) {
       current.reward = validBody.reward;
-    } else {
-      current.reward = 0;
     }
-
+    
     if (validBody.phone) {
       current.phone = validBody.phone;
     }
