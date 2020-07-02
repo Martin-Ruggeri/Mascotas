@@ -19,7 +19,7 @@ export function initModule(app: express.Express) {
     app
         .route("/v1/lostpet/:lostPetId")
         .get(onlyLoggedIn, readById)
-        .post(onlyLoggedIn, updateById)
+        .put(onlyLoggedIn, updateById)
         .delete(onlyLoggedIn, removeById);
 }
 

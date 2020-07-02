@@ -43,7 +43,7 @@ export async function newLostPet(payload: LostPet): Promise<LostPet> {
 
 export async function saveLostPet(payload: LostPet): Promise<LostPet> {
     try {
-        const res = (await axios.post(environment.backendUrl + "/v1/lostpet/" + payload.id, payload)).data as LostPet
+        const res = (await axios.put(environment.backendUrl + "/v1/lostpet/" + payload.id, payload)).data as LostPet
 
         return Promise.resolve(res)
     } catch (err) {
