@@ -7,9 +7,6 @@ Microservicio de Autentificación
 	- [Guardar Imagen](#guardar-imagen)
 	- [Obtener Imagen](#obtener-imagen)
 	
-- [Mascota](#mascota)
-	- [Guardar Imagen de la Mascota perdida](#guardar-imagen-de-la-mascota-perdida)
-	
 - [Mascotas](#mascotas)
 	- [Actualizar Mascota](#actualizar-mascota)
 	- [Buscar Mascota](#buscar-mascota)
@@ -18,15 +15,11 @@ Microservicio de Autentificación
 	- [Listar Mascota](#listar-mascota)
 	
 - [Mascotas_Perdida](#mascotas_perdida)
+	- [Crear Mascota](#crear-mascota)
 	- [Actualizar Mascota Perdida](#actualizar-mascota-perdida)
 	- [Buscar Mascota Perdida](#buscar-mascota-perdida)
 	- [Eliminar Mascota Perdida](#eliminar-mascota-perdida)
-	
-- [Mascotas_Perdidas](#mascotas_perdidas)
 	- [Listar Mascota Perdidas](#listar-mascota-perdidas)
-	
-- [Mascotas_perdida](#mascotas_perdida)
-	- [Crear Mascota](#crear-mascota)
 	
 - [Perfil](#perfil)
 	- [Actualizar Perfil](#actualizar-perfil)
@@ -144,73 +137,6 @@ Authorization=bearer {token}
 | Name     | Type       | Description                           |
 |:---------|:-----------|:--------------------------------------|
 |  Base64 | text | <p>image response</p>|
-
-### Error Response
-
-401 Unauthorized
-
-```
-HTTP/1.1 401 Unauthorized
-```
-400 Bad Request
-
-```
-HTTP/1.1 400 Bad Request
-{
-   "messages" : [
-     {
-       "path" : "{Nombre de la propiedad}",
-       "message" : "{Motivo del error}"
-     },
-     ...
-  ]
-}
-```
-500 Server Error
-
-```
-HTTP/1.1 500 Internal Server Error
-{
-   "error" : "Not Found"
-}
-```
-# <a name='mascota'></a> Mascota
-
-## <a name='guardar-imagen-de-la-mascota-perdida'></a> Guardar Imagen de la Mascota perdida
-[Back to top](#top)
-
-<p>Guarda una imagen de perfil en la db y actualiza el perfil de la mascota perdida</p>
-
-	POST /v1/lostPet/picture
-
-
-
-### Examples
-
-Body
-
-```
-{
-  "image" : "Base 64 Image Text"
-}
-```
-Header Autorización
-
-```
-Authorization=bearer {token}
-```
-
-
-### Success Response
-
-Response
-
-```
-{
-  "id": "id de imagen"
-}
-```
-
 
 ### Error Response
 
@@ -539,16 +465,20 @@ HTTP/1.1 500 Internal Server Error
    "error" : "Not Found"
 }
 ```
+
+
+
 # <a name='mascotas_perdida'></a> Mascotas_Perdida
 
-## <a name='actualizar-mascota-perdida'></a> Actualizar Mascota Perdida
+## <a name='crear-mascota'></a> Crear Mascota
 [Back to top](#top)
 
-<p>Actualiza los datos de una mascota perdida.</p>
+<p>Crea una mascota perdida.</p>
 
-	POST /v1/lostpet/:lostpetId
+	POST /v1/lostpet
 
 
+#### Nota: Para crear la mascota con una imagen, perimero se debe cargar la imagen al sistema [Guardar Imagen](#guardar-imagen), y luego crear la mascota perdida, pasando el id de la imagen en el atributo 'picture'
 
 ### Examples
 
@@ -558,30 +488,105 @@ Header Autorización
 Authorization=bearer {token}
 ```
 
+Body
+```
+{
+  name: string;		              // Dato obligatorio
+  description: string;		      // Dato obligatorio
+  direction: string;		      // Dato opcional 
+  reward: number;		      // Dato opcional 
+  phone: string;		      // Dato obligatorio 
+  pet: id del pet;		      // Dato obligatorio 
+  picture: id de la imagen;	      // Dato opcional 
+}
+```
 
 ### Success Response
 
-Mascota Perdidas
-
+Response
 ```
 {
-  name: "Nombre de la mascota perdida";
-  description: "Descripcion de la mascota perdida";
-  direction: "Direccion donde se vio por ultima vez la mascota perdida";
-  reward: "Recompensa por la mascota perdida";
-  phone: "Celular para comunicarse en caso de encontrar la mascota perdida";
+  "id": "Id mascota"
 }
 ```
-Mascota
+
+
+### Error Response
+
+401 Unauthorized
 
 ```
+HTTP/1.1 401 Unauthorized
+```
+400 Bad Request
+
+```
+HTTP/1.1 400 Bad Request
 {
-  "id": "Id de mascota",
-  "name": "Nombre de la mascota",
-  "description": "Descripción de la mascota",
-  "birthDate": date (DD/MM/YYYY),
+   "messages" : [
+     {
+       "path" : "{Nombre de la propiedad}",
+       "message" : "{Motivo del error}"
+     },
+     ...
+  ]
 }
 ```
+500 Server Error
+
+```
+HTTP/1.1 500 Internal Server Error
+{
+   "error" : "Not Found"
+}
+```
+
+## <a name='actualizar-mascota-perdida'></a> Actualizar Mascota Perdida
+[Back to top](#top)
+
+<p>Actualiza los datos de una mascota perdida.</p>
+
+	PUT /v1/lostpet/:lostPetId
+
+
+#### Nota: Para Guardar a la mascota con una imagen, perimero se debe cargar la imagen al sistema [Guardar Imagen](#guardar-imagen), y luego crear la mascota perdida, pasando el id de la imagen en el atributo 'picture'
+
+### Examples
+
+Header Autorización
+
+```
+Authorization=bearer {token}
+```
+
+Body
+```
+{
+  name: string;		              // Dato opcional
+  description: string;		      // Dato opcional
+  direction: string;		      // Dato opcional 
+  reward: number;		      // Dato opcional 
+  phone: string;		      // Dato opcional 
+  pet: id del pet;		      // Dato opcional 
+  picture: id de la imagen;	      // Dato opcional 
+}
+```
+
+### Success Response
+
+Respone
+```
+{
+  name: string;		            
+  description: string;		    
+  direction: string;		      
+  reward: number;		          
+  phone: string;		           
+  pet: id del pet;		        
+  picture: id de la imagen;	  
+}
+```
+
 
 
 ### Error Response
@@ -630,7 +635,20 @@ Header Autorización
 Authorization=bearer {token}
 ```
 
+### Success Response
 
+Respone
+```
+{
+  name: string;		            
+  description: string;		    
+  direction: string;		      
+  reward: number;		          
+  phone: string;		           
+  pet: id del pet;		        
+  picture: id de la imagen;	  
+}
+```
 
 
 ### Error Response
@@ -667,7 +685,7 @@ HTTP/1.1 500 Internal Server Error
 
 <p>Eliminar una mascota perdida.</p>
 
-	DELETE /v1/lostpet/:lostPetId&quot;
+	DELETE /v1/lostpet/:lostPetId
 
 
 
@@ -704,7 +722,6 @@ HTTP/1.1 500 Internal Server Error
    "error" : "Not Found"
 }
 ```
-# <a name='mascotas_perdidas'></a> Mascotas_Perdidas
 
 ## <a name='listar-mascota-perdidas'></a> Listar Mascota Perdidas
 [Back to top](#top)
@@ -726,23 +743,21 @@ Authorization=bearer {token}
 
 ### Success Response
 
-Mascota Perdidas
 
+Response
 ```
 [
   {
-name: "Nombre de la mascota perdida";
-description: "Descripcion de la mascota perdida";
-direction: "Direccion donde se vio por ultima vez la mascota perdida";
-reward: "Recompensa por la mascota perdida";
-phone: "Celular para comunicarse en caso de encontrar la mascota perdida";
-pet: "Relacion entre la mascota y la mascota perdida";
-}
+    name: string;		            
+    description: string;		    
+    direction: string;		      
+    reward: number;		          
+    phone: string;		           
+    pet: id del pet;		        
+    picture: id de la imagen;	  
+  }
 ]
-```
-Response
 
-```
 HTTP/1.1 200 OK
 ```
 
@@ -762,76 +777,9 @@ HTTP/1.1 500 Internal Server Error
    "error" : "Not Found"
 }
 ```
-# <a name='mascotas_perdida'></a> Mascotas_perdida
-
-## <a name='crear-mascota'></a> Crear Mascota
-[Back to top](#top)
-
-<p>Crea una mascota perdida.</p>
-
-	POST /v1/lostpet
 
 
 
-### Examples
-
-Mascota Perdida
-
-```
-{
-  "id": "Id mascota"
-}
-```
-Header Autorización
-
-```
-Authorization=bearer {token}
-```
-
-
-### Success Response
-
-Mascota
-
-```
-{
-  "id": "Id de mascota",
-  "name": "Nombre de la mascota",
-  "description": "Descripción de la mascota",
-  "birthDate": date (DD/MM/YYYY),
-}
-```
-
-
-### Error Response
-
-401 Unauthorized
-
-```
-HTTP/1.1 401 Unauthorized
-```
-400 Bad Request
-
-```
-HTTP/1.1 400 Bad Request
-{
-   "messages" : [
-     {
-       "path" : "{Nombre de la propiedad}",
-       "message" : "{Motivo del error}"
-     },
-     ...
-  ]
-}
-```
-500 Server Error
-
-```
-HTTP/1.1 500 Internal Server Error
-{
-   "error" : "Not Found"
-}
-```
 # <a name='perfil'></a> Perfil
 
 ## <a name='actualizar-perfil'></a> Actualizar Perfil
